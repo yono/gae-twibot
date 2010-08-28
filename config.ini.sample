@@ -1,0 +1,13 @@
+[oauth]
+consumer_key = 
+consumer_secret = 
+access_token = 
+access_token_secret = 
+
+[twilog]
+original_id =
+
+[bot]
+tweet_type = 2
+reply = True
+auto_refollow = False
