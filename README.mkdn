@@ -31,6 +31,24 @@ config.ini の下記部分に OAuth の consumer_key 等を記述します。
 
 ### ツイート間隔・リプライに反応する間隔
 
+cron.yaml の下記部分で、15 となっているのがツイート間隔です。単位は分です。
+
+    - description: tweet
+      url: /tweet
+      # ツイートの間隔
+      schedule: every 15 minutes
+
+この数字を変更することでツイートの間隔を変更できます。
+
+cron.yaml の下記部分で、1 となっているのがリプライに反応する間隔です。
+単位は分です。
+
+    - description: reply
+      url: /reply
+      schedule: every 1 minutes
+
+この数字を変更することでリプライに反応する間隔を変更できます。
+
 ### ツイート方法の選択
 
 ### マルコフ連鎖
