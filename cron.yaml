@@ -1,0 +1,16 @@
+cron:
+- description: tweet
+  url: /tweet
+  # ツイートの間隔
+  schedule: every 15 minutes
+
+# リプライに反応する場合、有効にする
+- description: reply
+  url: /reply
+  schedule: every 1 minutes
+
+# マルコフ連鎖を使う場合、有効にする
+- description: learn
+  url: /learn
+  schedule: every 24 hours
+  timezone: Asia/Tokyo
