@@ -1,0 +1,38 @@
+#twibot
+
+## 説明
+
+Google App Engine/Python 上で動作する Twitter Bot です。
+
+機能は以下の二つです。
+ 
+- ツイートを投稿する
+- リプライに対して返信する
+
+ツイートする文章の内容は、以下の二つから選択することができます。
+
+- マルコフ連鎖による文章自動生成
+- 辞書ファイルからランダムに出力
+
+## 設定
+
+setting.ini.sample をコピーして、同一ディレクトリ内に setting.ini という
+名前のファイルを作成します。
+
+### OAuth
+
+config.ini の下記部分に OAuth の consumer_key 等を記述します。
+
+  [oauth]
+  consumer_key = 
+  consumer_secret = 
+  access_token = 
+  access_token_secret = 
+
+### ツイート間隔・リプライに反応する間隔
+
+### ツイート方法の選択
+
+### マルコフ連鎖
+
+### 辞書ファイル
