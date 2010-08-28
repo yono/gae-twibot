@@ -16,7 +16,7 @@ Google App Engine/Python 上で動作する Twitter Bot です。
 
 ## 設定
 
-setting.ini.sample をコピーして、同一ディレクトリ内に setting.ini という
+config.ini.sample をコピーして、同一ディレクトリ内に config.ini という
 名前のファイルを作成します。
 
 ### OAuth
@@ -62,15 +62,19 @@ config.ini の下記部分で解析対象の id を指定します。
     [twilog]
     original_id = 
 
-例えば、Twitter id:yono (http://twitter.com/yono) を解析対象に指定する
+例えば、Twitter id:yono [](http://twitter.com/yono) を解析対象に指定する
 場合は以下のように記述します。
 
     [twilog]
     original_id = yono
 
-##### 一括データ解析
+##### 一括解析
 
-##### 定期的なデータ解析
+過去のログを一括で解析したい場合
+
+##### 定期的な解析
+
+定期的にログを解析したい場合
 
 #### ファイルに書いた文を用いる場合
 
