@@ -62,7 +62,7 @@ config.ini の下記部分で解析対象の id を指定します。
     [twilog]
     original_id = 
 
-例えば、Twitter id:yono [](http://twitter.com/yono) を解析対象に指定する
+例えば、Twitter id:yono ([http://twitter.com/yono](http://twitter.com/yono)) を解析対象に指定する
 場合は以下のように記述します。
 
     [twilog]
