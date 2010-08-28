@@ -23,11 +23,11 @@ setting.ini.sample をコピーして、同一ディレクトリ内に setting.i
 
 config.ini の下記部分に OAuth の consumer_key 等を記述します。
 
-  [oauth]
-  consumer_key = 
-  consumer_secret = 
-  access_token = 
-  access_token_secret = 
+    [oauth]
+    consumer_key = 
+    consumer_secret = 
+    access_token = 
+    access_token_secret = 
 
 ### ツイート間隔・リプライに反応する間隔
 
