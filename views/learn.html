@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>一括データ収集</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>発言を収集する日時を入力してください</h1>
+        <p>
+            注意: Twilog に存在しない日時を入力するとエラーになります。
+        </p>
+        <form method="POST" action="">
+            開始日時:
+            <input type="text" name="s_year">年
+            <input type="text" name="s_month">月
+            <input type="text" name="s_day">日
+            <br/>終了日時:
+            <input type="text" name="e_year">年
+            <input type="text" name="e_month">月
+            <input type="text" name="e_day">日
+            <br/>
+            <input type="submit" value="送信"/>
+        </form>
+    </body>
+</html>

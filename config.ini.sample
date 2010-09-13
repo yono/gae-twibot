@@ -7,7 +7,9 @@ access_token_secret =
 [twilog]
 original_id =
 
+[yahoo]
+appid = 
+
 [bot]
-tweet_type = 2
+tweet_type = 1
 reply = True
-auto_refollow = False
