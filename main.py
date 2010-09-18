@@ -91,7 +91,7 @@ GET:  DB を元に生成した新しい文章を返す
 POST: 投げられた文章を解析して DB に突っ込む
 """
 
-def get_sentence_from_db():
+def tweet_from_db():
     m = MarkovChains()
     m.load_db('gquery2')
     taskqueue.add(url='/task/talk')
