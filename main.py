@@ -51,7 +51,11 @@ original_id = parser.get(sec, 'original_id')
 
 sec = 'bot'
 tweet_type = int(parser.get(sec, 'tweet_type'))
-reply = parser.get(sec, 'reply')
+reply_str = parser.get(sec, 'reply')
+if reply_str == 'True':
+    reply = True
+else:
+    reply = False
 
 api = twoauth.api(consumer_key,
                   consumer_secret,
@@ -109,6 +113,10 @@ class PostTweetHandler(webapp.RequestHandler):
         tweet = get_tweet(False)
         api.status_update(tweet)
 
+    def post(self):
+        tweet = get_tweet(False)
+        api.status_update(tweet)
+
 class ReplyTweetHandler(webapp.RequestHandler):
     def get_sinceid(self):
         since_id = memcache.get('since_id')
@@ -130,18 +138,19 @@ class ReplyTweetHandler(webapp.RequestHandler):
 
             last_tweet = ''
 
-            for status in mentions:
-                screen_name = status['user']['screen_name']
+            if mentions is not None:
+                for status in mentions:
+                    screen_name = status['user']['screen_name']
 
-                tweet = get_tweet(True)
-                while tweet == last_tweet:
                     tweet = get_tweet(True)
-                last_tweet = tweet
-                tweet = "@%s %s" %(screen_name, tweet)
+                    while tweet == last_tweet:
+                        tweet = get_tweet(True)
+                    last_tweet = tweet
+                    tweet = "@%s %s" %(screen_name, tweet)
 
-                last_since_id = status['id']
-                self.set_sinceid(last_since_id)
-                api.status_update(tweet, in_reply_to_status_id=last_since_id)
+                    last_since_id = status['id']
+                    self.set_sinceid(last_since_id)
+                    api.status_update(tweet, in_reply_to_status_id=last_since_id)
             
 
 class SinceIdHandler(webapp.RequestHandler):
@@ -286,10 +295,10 @@ def main():
             [('/tweet', PostTweetHandler),
             ('/reply', ReplyTweetHandler),
             ('/since_id', SinceIdHandler),
-            ('/talk_task', ApiDbSentenceTalkTask),
+            ('/task/talk', ApiDbSentenceTalkTask),
             ('/learn_task', ApiDbSentenceLearnTask),
             ('/delete_memcache', DeleteHandler),
-            ('/learn_tweet', LearnTweetHandler),
+            ('/learn', LearnTweetHandler),
             ('/learn_tweet_all', LearnTweetAllHandler),
             ('/task_alllearn', LearnTweetAllTask),
             ('/', MainHandler),
