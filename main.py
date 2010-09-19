@@ -51,6 +51,9 @@ original_id = parser.get(sec, 'original_id')
 
 sec = 'bot'
 tweet_type = int(parser.get(sec, 'tweet_type'))
+markov = None
+if tweet_type == USE_MARKOV:
+    markov = MarkovChains()
 reply_str = parser.get(sec, 'reply')
 if reply_str == 'True':
     reply = True
@@ -85,9 +88,8 @@ def parse_tweet(text):
 POST された文章を元に新しい文章生成
 """
 def get_sentence(sentence):
-    m = MarkovChains()
-    m.analyze_sentence(sentence)
-    return m.make_sentence()
+    markov.analyze_sentence(sentence)
+    return markov.make_sentence()
 
 
 """
@@ -96,10 +98,9 @@ POST: 投げられた文章を解析して DB に突っ込む
 """
 
 def tweet_from_db():
-    m = MarkovChains()
-    m.load_db('gquery2')
+    markov.load_db('gquery2')
     taskqueue.add(url='/task/talk')
-    return m.db.fetch_new_sentence()
+    return markov.db.fetch_new_sentence()
 
 def analyse_sentence_to_db(sentence):
     taskqueue.add(url='/learn_task',
@@ -168,9 +169,8 @@ class MainHandler(webapp.RequestHandler):
 """
 class ApiDbSentenceTalkTask(webapp.RequestHandler):
     def post(self):
-        m = MarkovChains()
-        m.load_db('gquery2')
-        m.db.store_new_sentence()
+        markov.load_db('gquery2')
+        markov.db.store_new_sentence()
 
 """
 文章を解析して DB に保存
@@ -178,9 +178,8 @@ class ApiDbSentenceTalkTask(webapp.RequestHandler):
 class ApiDbSentenceLearnTask(webapp.RequestHandler):
     def post(self):
         text = self.request.get('sentences')
-        m = MarkovChains()
-        m.load_db('gquery2')
-        m.db.store_sentence(text)
+        markov.load_db('gquery2')
+        markov.db.store_sentence(text)
 
 """
 memcache の中身を全削除
