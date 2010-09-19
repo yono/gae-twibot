@@ -230,6 +230,7 @@ class LearnTweetAllHandler(webapp.RequestHandler):
                         params={'year':start.year, 'month': start.month,
                                 'day':start.day})
                 start = start + datetime.timedelta(days=1)
+        self.response.out.write(template.render('views/learn_result.html', {}))
                        
 
 class LearnTweetAllTask(webapp.RequestHandler):
