@@ -72,9 +72,11 @@ sentences = []
 
 def parse_tweet(text):
     reply = re.compile(u'@[\S]+')
+    hashtag = re.compile(u'#[\S]+')
     url = re.compile(r's?https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+', re.I)
 
     text = reply.sub('', text)
+    text = hashtag.sub('', text)
     text = url.sub('', text)
     text = text.replace(u'．', u'。')
     text = text.replace(u'，', u'、')
