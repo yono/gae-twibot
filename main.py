@@ -54,16 +54,14 @@ tweet_type = int(parser.get(sec, 'tweet_type'))
 markov = None
 if tweet_type == USE_MARKOV:
     markov = MarkovChains()
-reply_str = parser.get(sec, 'reply')
-if reply_str == 'True':
-    reply = True
-else:
-    reply = False
 
 api = twoauth.api(consumer_key,
                   consumer_secret,
                   access_token,
                   access_token_secret)
+
+class DoReply(db.Model):
+    flg = db.BooleanProperty()
 
 """
 sentence.txt を読み込む
@@ -134,25 +132,30 @@ class ReplyTweetHandler(webapp.RequestHandler):
         Since(key_name='since_id', id=int(since_id)).put()
         
     def get(self):
-        if reply:
-            mentions = api.mentions(since_id=self.get_sinceid())
+        mentions = api.mentions(since_id=self.get_sinceid())
 
-            reply_start = re.compile(u'(@.+?)\s', re.I | re.U)
+        reply_start = re.compile(u'(@.+?)\s', re.I | re.U)
 
-            last_tweet = ''
+        last_tweet = ''
 
-            if mentions is not None:
-                for status in mentions:
-                    screen_name = status['user']['screen_name']
+        reply_temp_defeated = DoReply.get_by_key_name('id')
+        if reply_temp_defeated is None:
+            DoReply(key_name='id', flg=False).put()
 
+        if mentions is not None:
+            for status in mentions:
+                screen_name = status['user']['screen_name']
+
+                tweet = get_tweet(True)
+                while tweet == last_tweet:
                     tweet = get_tweet(True)
-                    while tweet == last_tweet:
-                        tweet = get_tweet(True)
-                    last_tweet = tweet
-                    tweet = "@%s %s" %(screen_name, tweet)
+                last_tweet = tweet
+                tweet = "@%s %s" %(screen_name, tweet)
 
-                    last_since_id = status['id']
-                    self.set_sinceid(last_since_id)
+                last_since_id = status['id']
+                self.set_sinceid(last_since_id)
+
+                if (not reply_temp_defeated.flg):
                     api.status_update(tweet, in_reply_to_status_id=last_since_id)
             
 
@@ -164,6 +167,29 @@ class SinceIdHandler(webapp.RequestHandler):
 class MainHandler(webapp.RequestHandler):
     def get(self):
         self.response.out.write('Hello World!')
+
+class SettingHandler(webapp.RequestHandler):
+    def get(self):
+        reply_temp_defeated = DoReply.get_by_key_name('id')
+        flg = False
+        if reply_temp_defeated is None:
+            DoReply(key_name='id', flg=False).put()
+        else:
+            flg = reply_temp_defeated.flg
+        dic = {'reply_temp_defeated': flg}
+        self.response.out.write(template.render('views/settings.html', dic))
+
+    def post(self):
+        _reply_temp_defeated = self.request.get('reply_temp_defeated')
+        if _reply_temp_defeated == '1':
+            DoReply(key_name='id', flg=False).put()
+        else:
+            DoReply(key_name='id', flg=True).put()
+        reply_temp_defeated = DoReply.get_by_key_name('id')
+
+        dic = {'reply_temp_defeated': reply_temp_defeated.flg}
+        self.response.out.write(template.render('views/settings.html', dic))
+
 
 ### こっからマルコフ連鎖用 ###
 """
@@ -303,6 +329,7 @@ def main():
             ('/learn', LearnTweetHandler),
             ('/learn_tweet_all', LearnTweetAllHandler),
             ('/task_alllearn', LearnTweetAllTask),
+            ('/settings', SettingHandler),
             ('/', MainHandler),
             ],
     debug=True)

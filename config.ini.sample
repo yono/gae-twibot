@@ -12,4 +12,3 @@ appid =
 
 [bot]
 tweet_type = 1
-reply = True

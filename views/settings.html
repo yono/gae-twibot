@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>リプライ有効化／無効化設定</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>リプライ有効化／無効化設定</h1>
+        <form method="POST" action="">
+            <p>現在の設定: <b>{% if reply_temp_defeated %}無効{% else %}有効{% endif %}</b></p>
+            <input type="radio" name="reply_temp_defeated" value="1" {% if reply_temp_defeated %}{% else %} checked {% endif %} >有効</input>
+            <input type="radio" name="reply_temp_defeated" value="0" {% if reply_temp_defeated %} checked {% else %}{% endif %}>無効</input>
+            <br />
+            <input type="submit" value="保存"/>
+        </form>
+    </body>
+</html>
