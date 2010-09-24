@@ -51,9 +51,7 @@ original_id = parser.get(sec, 'original_id')
 
 sec = 'bot'
 tweet_type = int(parser.get(sec, 'tweet_type'))
-markov = None
-if tweet_type == USE_MARKOV:
-    markov = MarkovChains()
+markov = MarkovChains()
 
 api = twoauth.api(consumer_key,
                   consumer_secret,
