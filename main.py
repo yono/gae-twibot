@@ -315,6 +315,16 @@ def tweet_randomly_from_text(text):
             sentences.append('\n'.join(sentence))
     return random.choice(sentences)
 
+class OnakaSuitaHandler(webapp.RequestHandler):
+    ## TLを監視して「おなかすいた」が見つかったら反応する
+    tweets = api.home_timeline()
+    if tweets is not None:
+        for status in tweets:
+            tweet = status['text']
+
+            if (tweet.find(u'おなかすいた') > 0):
+                api.status_update('おれもおれも')
+
 
 def main():
     application = webapp.WSGIApplication(
@@ -329,6 +339,7 @@ def main():
             ('/task_alllearn', LearnTweetAllTask),
             ('/settings', SettingHandler),
             ('/', MainHandler),
+            ('/onakasuita', OnakaSuitaHandler),
             ],
     debug=True)
     util.run_wsgi_app(application)

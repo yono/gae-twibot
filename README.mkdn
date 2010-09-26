@@ -88,5 +88,6 @@ sentence.txt に書かれた文をランダムにツイートします。
     %
     あつい
 
+## ライセンス
 
-
+The MIT License. See LICENSE for details.
